@@ -13,8 +13,11 @@ export const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  if (localStorage.getItem("token")) {
-    router.push("/");
+  if (typeof localStorage !== "undefined") {
+    // Safe to use localStorage here
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
   }
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -31,7 +34,11 @@ export const Form = () => {
         return;
       }
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        if (typeof localStorage !== "undefined") {
+          // Safe to use localStorage here
+          localStorage.setItem("token", data.token);
+        }
+
         router.push("/");
       }
     } catch (err: any) {}

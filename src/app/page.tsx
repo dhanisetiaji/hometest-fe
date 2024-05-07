@@ -69,6 +69,7 @@ export default function Home() {
         },
       }).then((res) => res.json()),
   });
+  console.log(data);
   if (!isLoading && data?.message === "Unauthorized") {
     router.push("/login");
   }
@@ -128,9 +129,7 @@ export default function Home() {
     }
   };
 
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return !isLoading && data?.message !== "Unauthorized" ? (
     <div className="p-5 space-y-5">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Balance</h1>
@@ -275,5 +274,7 @@ export default function Home() {
         </div>
       </div>
     </div>
+  ) : (
+    <div>Loading...</div>
   );
 }
