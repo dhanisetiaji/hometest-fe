@@ -5,13 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 // import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const Form = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,14 +26,13 @@ export const Form = () => {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      console.log(data);
       if (data.error) {
         setError(data.message);
         return;
       }
       if (data.token) {
         localStorage.setItem("token", data.token);
-        router.push(callbackUrl);
+        router.push("/");
       }
     } catch (err: any) {}
   };

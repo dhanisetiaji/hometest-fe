@@ -69,7 +69,6 @@ export default function Home() {
         },
       }).then((res) => res.json()),
   });
-  console.log(listTransaction);
   if (!isLoading && data?.message === "Unauthorized") {
     router.push("/login");
   }
@@ -80,21 +79,18 @@ export default function Home() {
         return toast({
           title: "Error",
           description: "Please fill all fields",
-          status: "error",
         });
       }
       if (payload.type === "withdraw" && payload.amount > data.balance) {
         return toast({
           title: "Error",
           description: "Balance not enough",
-          status: "error",
         });
       }
       if (payload.type === "withdraw" && payload.amount < 0) {
         return toast({
           title: "Error",
           description: "Amount must be greater than 0",
-          status: "error",
         });
       }
       const dataToSend = {
@@ -118,14 +114,13 @@ export default function Home() {
       if (result.status) {
         refatchTransaction();
         refetchBalance();
-        return toast({
-          title: "Success",
-          description: "Transaction success",
-          status: "success",
-        });
         setPayload({
           amount: 0,
           type: "",
+        });
+        return toast({
+          title: "Success",
+          description: "Transaction success",
         });
       }
     } catch (error) {
@@ -163,7 +158,6 @@ export default function Home() {
                 toast({
                   title: "Success",
                   description: "Data has been refreshed",
-                  status: "success",
                 });
               }}
             >
